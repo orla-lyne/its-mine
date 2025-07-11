@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RSS Feed</title>
+     <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"/>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="main-container">
+        <div class="main-head">
+            <div class="aside-container">
+                <aside class="feed-main-container ">
+                    <div  class="aside-heading">
+                        <h1>FEEDS</h1>
+                        <div class="button-section">
+                         <button id="add-feed"> <i class="fa-solid fa-plus" id="myimageicon"></i></button>
+                         <button id="delete-feed"><i class="fa-solid fa-xmark" id="myicon"></i></button>
+                        </div>
+                    </div>
+                    <div class="feed-container">
+                        <ul id="feed-list">
+                        <li>There are no feeds yet!</li>
+                        </ul>
+                    </div>  
+                
+                </aside>
+            </div> 
+            <div class="main-body">
+                <div class="headings">
+                    <h1>Select a Feed<span>News</span></h1>
+                    <button id="refresh">Refresh Feed</button>
+                </div>
+                <div class="news-container">
+                    <h2>Select a Feed or add any of your choice </h2>
+                      <span class="loader-text">loading feed ....</span>
+                     <span class="load"></span>
+
+                     <span class="error message"></span>
+                     
+                </div>
+                  
+            </div>
+        </div>
+        <div class="footer">
+            <footer>hello</footer>
+        </div> 
+     <!-- <div class="feed-form1">  
+        <div class="contact-form">
+                   <div class="exit-form">
+                    <button id="close-feed"><i class="fa-solid fa-xmark" id="myimageicon"></i></button>
+                   </div>
+                        <div class="form-heading"> 
+                            <h1>Add  New Feed</h1>
+                        </div>
+                        <div> 
+                            <form id="feed-form">
+                               <div class="input">
+                                   <label for="Feed-Url">Feed URL :</label>
+                                   <input type="url" id="Feed-Url" required>
+                                   <label for="Feed-Name">Feed Name :</label>
+                                   <input type="text" id="Feed-Name" required> 
+                               </div>
+                               <div class="form-button">
+                                <button id="Save">Save Feed</button>
+                                <button id="Cancel">Cancel</button>
+                               </div>
+                            </form>
+                        </div>
+                    </div> 
+    </div>  -->
+  </div>    
+</body>
+<script src="script.js"></script>
+</html>
