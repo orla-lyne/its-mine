@@ -20,8 +20,8 @@
                     <div  class="aside-heading">
                         <h1>FEEDS</h1>
                         <div class="button-section">
-                         <button id="add-feed"> <i class="fa-solid fa-plus" id="myimageicon"></i></button>
-                         <button id="delete-feed"><i class="fa-solid fa-xmark" id="myicon"></i></button>
+                         <button id="add-feed"> <i class="fa-solid fa-plus" ></i></button>
+                         <button id="delete-feed"><i class="fa-solid fa-xmark" ></i></button>
                         </div>
                     </div>
                     <div class="feed-container">
@@ -34,24 +34,27 @@
             </div> 
             <div class="main-body">
                 <div class="headings">
-                    <h1>Select a Feed<span>News</span></h1>
+                    <div class="feed-heading"><h1>Select a Feed<span>News</span></h1></div>
                     <button id="refresh">Refresh Feed</button>
                 </div>
                 <div class="news-container">
-                    <h2>Select a Feed or add any of your choice </h2>
-                      <span class="loader-text">loading feed ....</span>
-                     <span class="load"></span>
-
-                     <span class="error message"></span>
-                     
+                    <h1>Select a Feed or add any of your choice </h1>
+                      
                 </div>
+                 <div class="loader-text" style="display: none;">
+                       <div class="spinner"></div> Loading news...
+                    </div>
+
+                        <div class="error-message" style="display: none;">
+                            Something went wrong. Please try again.
+                        </div>
                   
             </div>
         </div>
         <div class="footer">
             <footer>hello</footer>
         </div> 
-     <!-- <div class="feed-form1">  
+     <div class="feed-form1">  
         <div class="contact-form">
                    <div class="exit-form">
                     <button id="close-feed"><i class="fa-solid fa-xmark" id="myimageicon"></i></button>
@@ -66,6 +69,8 @@
                                    <input type="url" id="Feed-Url" required>
                                    <label for="Feed-Name">Feed Name :</label>
                                    <input type="text" id="Feed-Name" required> 
+                                   <label for="Feed-Id"> Feed Id :</label>
+                                   <input type="text" id="Feed-Id">
                                </div>
                                <div class="form-button">
                                 <button id="Save">Save Feed</button>
@@ -74,7 +79,7 @@
                             </form>
                         </div>
                     </div> 
-    </div>  -->
+    </div> 
   </div>    
 </body>
 <script src="script.js"></script>
