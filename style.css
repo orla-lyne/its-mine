@@ -2,9 +2,16 @@
   padding: 0;
   margin: 0;
   box-sizing: 0;
-  cursor: pointer;
-  transition: all 0.3s;
+ 
+}
+
+body{
+   cursor: pointer;
   font-family: Arial, Helvetica, sans-serif;
+  background-color: #EEE;
+  line-height: 1.6;
+  min-height: 100vh;
+
 }
 
 .main-container {
@@ -13,19 +20,35 @@
   gap: 0.5em;
   width: 100%;
   background-color:#EEE;
+  max-width: 1200px;
+  overflow: hidden;
 }
 
 .aside-container {
   border-right: 1px solid #000;
-  width: 20%;
+  padding: 20px;
+  border-bottom: 1px solid black;
 }
 
 .aside-heading {
+  display: flex;
   background-color: #178582;
-  color: black;
-  justify-items: center;
+  justify-content: space-between;
   align-content: center;
-  padding: 20px;
+  margin-bottom: 15px;
+}
+.aside-heading h1 {
+  font-size: 1.5em;
+  color: white;
+}
+ 
+.button-section button{
+  padding: 8px 12px;
+  border: none;
+  border-radius: 5px;
+  background-color:  white;
+  color: black;
+
 }
 
 .main-head {
@@ -35,34 +58,49 @@
 }
 
 .main-body {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5em;
-  width: 80%;
+  padding: 20px;
+  flex-grow: 1;
 }
 
 .headings {
   border: 1px solid black;
-  color: #178582;
   display: flex;
-  justify-content: space-around;
-  height: 5vh;
-  padding: 30px;
-  border-radius: 8px ;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  gap: 10px;
 }
+
+.feed-heading h1{
+  font-size: 1.8em;
+  color: #178582;
+}
+
+.feed-heading span{
+  font-size: 0.9em;
+  margin-left: 10px;
+  color: #178582;
+}
+
 
 .news-container {
 display: flex;
 align-items: center;
 flex-wrap: wrap;
 gap: 3rem;
+border: 1px solid black;
+border-radius: 5px;
+padding: 20px;
+/* min-height: 300px; */
+text-align: center;
+font-size: 1.2em;
 }
 
 
 
 .news-card {
     background-color:whitesmoke;
-    border-radius: 8px ;
+    border-radius: 5px ;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     border: 1px solid black;
     overflow: hidden; 
@@ -81,8 +119,7 @@ gap: 3rem;
 }
 
 .news-card img {
-    height: 30vh; 
-    display: flex; 
+     height: 22vh;
      flex-grow: 1; 
      margin-bottom: 15px;
 }
@@ -118,7 +155,7 @@ gap: 3rem;
 .news-card a {
     display: inline-block;
     background-color: #178582;
-    color:black;
+    color:white;
     padding: 8px 15px;
     border-radius: 5px;
     text-decoration: none;
@@ -133,13 +170,15 @@ gap: 3rem;
 }
 
 .feed-container{
+  padding: 10px;
   align-content: center;
   font-size: larger;
  
 }
 
 ul{
-  list-style-type: none;
+  list-style: none;
+  padding: 0;
   margin: 0;
  color:#178582;
 }
@@ -152,7 +191,7 @@ ul li:hover{
 
 .active-li {
   background-color: #178582;
-  color: #000;
+  color: white;
 }
 
 .feed-li-el {
@@ -160,15 +199,6 @@ ul li:hover{
   border-bottom: 1px solid #000;
   text-align: left;
   padding: 20px;
-  
-}
-
-#add-feed{
-  width: 3em;
-  height: 3em;
-  border: solid black;
-  border-radius: 50px;
-  
   
 }
 
@@ -180,19 +210,11 @@ ul li:hover{
 .button-section{
   
   display: flex;
-  gap: 3rem;
+  gap: 2em;
   
 }
 
-#delete-feed{
 
-   width: 3em;
-  height: 3em;
-  border: none;
-  border-radius: 50px;
-  border: solid black;
-  
-}
 
 #delete-feed:hover{
  background-color:  #178582;
@@ -201,10 +223,11 @@ ul li:hover{
 }
 #refresh{
  background-color: #178582;
- color: black;
-  font-size: larger;
-  height: 3em;
-  width: 6em;
+ color: white;
+ padding: 7px ;
+ border-radius: 5px;
+font-size: 1em;
+ 
 }
 
  #refresh:hover{
@@ -215,51 +238,35 @@ ul li:hover{
 
 .footer {
   background-color:#178582 ;
-  color: black;
-  height: 3em;
+  color: white;
+  width: 100%;
+  height: 100%;
   display: flex;
   justify-content: center;
-  font-size: x-large;
+  align-items: center;
+  font-size: 1em;
+  z-index: 1000;
 }
 .form-button{
   display: flex;
-  align-content: space-around;
-  gap: 8rem; 
-  font-size: larger;
-  margin-top: 30px;
-  padding: 30px;
   justify-content: center;
+  gap: 80px;
+  margin-top: 80px;
 
 }
 
-
-#Cancel {
-  width: 6.5em;
-  height: 3em;
-  border: none;
+.form-button button {
+  padding:10px 15px ;
+  font-size:1em ;
   border-radius: 10px;
-  font-size: larger;
-  background-color:#178582;
-  color: #000;
-
+  border: none;
+ 
 }
 
 #Cancel:hover{
  background-color:  #178582;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
    transform: translateY(-5px);
-}
-
-
-#Save {
-   width: 6.5em;
-  height: 3em;
-  border: none;
-  border-radius: 10px;
-  font-size: larger;
-  background-color:#178582;
-  color: #000;
-
 }
 
 #Save:hover{
@@ -269,42 +276,55 @@ ul li:hover{
 }
 
 
-input{
-  display: flex;
-  flex-direction: column; 
-  padding: 20px;
-  font-size: larger;
-  border: 2px solid black;
-  width: 20em;
-  
+input label{
+  display: block;
+  margin-bottom: 8px;
+  font-weight:bold ;
+  color:#178582 ;
   
 }
 .form-heading{
+  font-size: 1.8em;
+  margin-bottom: 25px;
   display: flex;
-  justify-content: center;
-  padding: 20px;
+  text-align: center;
+  color: #178582 ;
 }
 
+.input input[type="url"],
+.input input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+}
+
+.input input:focus {
+    border-color: #178582;
+    outline: none;
+    box-shadow: 0 0 0 0.2rem  rgb(192, 228, 192);
+}
 .exit-form{
-  display: flex;
-  justify-content: flex-end;
+  position: absolute;
+  top: 15px;
+  right:15px ;
+
 }
 
 
 #close-feed{
-  border: 2px solid black;
-   display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 3em;
-  width: 3em;
-  border-radius: 50px;
+  border: none;
+  background: none;
+  display: flex;
+ font-size: 1.5em;
+  border-radius: 20px;
 }
 
 #close-feed:hover{
- background-color:  #178582;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-   transform: translateY(-5px);
+ color:  #178582;
+ 
 }
 
 .feed-form1{
@@ -321,11 +341,12 @@ input{
 .contact-form {
  background-color:#EEE;
   color:#178582 ;
-  padding: 20px;
+  padding: 30px;
   border: 2px solid black;
-  height: 30em;
-  width: 40em;
-  border-radius: 20px;
+  width: 90%;
+  max-width: 500px;
+  border-radius: 10px;
+  position: relative;
   
   
   
@@ -338,6 +359,7 @@ input{
     color:#178582 ;
     align-items: center;
     justify-content: center;
+    margin-top: 20px;
      animation: pulseFade 2s ease-in-out infinite; 
 }
 
