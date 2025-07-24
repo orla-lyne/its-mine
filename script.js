@@ -13,7 +13,6 @@ const defaultfeeds =[
 
 const feedlistelement = document.getElementById('feed-list');
 const newsContainer = document.querySelector('.news-container');
-
 const addfeedbutton = document.getElementById('add-feed');
 const deletefeedbutton = document.getElementById('delete-feed');
 const closefeedformbutton = document.getElementById('close-feed')
@@ -23,13 +22,14 @@ const loaderText = document.querySelector('.loader-text');
 const errorMessage = document.querySelector('.error-message'); 
 const Spinner = document.querySelector('.spinner');
 const feedformcontainer = document.querySelector('.feed-form1');
-const addFeedForm = document.getElementById('feed-form');
+const addfeedform = document.getElementById('feed-form');
 const addnewfeedurl = document.getElementById('Feed-Url'); 
 const addnewfeedname = document.getElementById('Feed-Name'); 
 const savefeedbutton = document.getElementById('save');
 
 
 
+addfeedbutton.setAttribute ('title' , 'Add a Feed');
 
 let currentfeeds = JSON.parse(localStorage.getItem('rssFeeds')) || defaultfeeds;
 let selectedfeedUrl = '';
@@ -65,37 +65,77 @@ function hideErrorMessage() {
 }
 
   function renderfeedlist() { 
-    feedlistelement.innerHTML = ''; 
+    feedlistelement.innerHTML = '';
     currentfeeds.forEach(feed => {
         const listitem = document.createElement('li');
-        listitem.textContent = feed.name;
-        listitem.className = 'feed-li-el'; 
+        listitem.className = 'feed-li-el';
         listitem.dataset.url = feed.url;
         listitem.dataset.name = feed.name;
-        if (feed.url === selectedfeedUrl) { 
-            listitem.classList.add('active-li');
-            currentlyActiveItem = listitem; 
-        }
 
-        
-        listitem.addEventListener('click', () => {
-            
+          const feedNameSpan = document.createElement('span');
+        feedNameSpan.textContent = feed.name;
+        feedNameSpan.className = 'feed-name-span';
+        feedNameSpan.setAttribute('title', feed.name); 
+
+
+
+       
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'x';
+        deleteButton.className = 'delete-feed-item-btn';
+        deleteButton.setAttribute('aria-label', `Delete ${feed.name}`);
+        deleteButton.setAttribute('title', `Delete ${feed.name}`);
+         feedNameSpan.addEventListener('click', (event) => {
+            event.stopPropagation(); 
             if (currentlyActiveItem) {
                 currentlyActiveItem.classList.remove('active-li');
             }
-            
             listitem.classList.add('active-li');
-            currentlyActiveItem = listitem; 
-            
-            selectedfeed(feed.url, feed.name); 
-        });
-           
-        feedlistelement.appendChild(listitem);
-        localStorage.clear();
+            currentlyActiveItem = listitem;
 
+            selectedfeed(feed.url, feed.name);
+        });
+        deleteButton.addEventListener('click', (event) => {
+            event.stopPropagation(); 
+            if (confirm(`Are you sure you want to delete "${feed.name}"?`)) {
+    
+                currentfeeds = currentfeeds.filter(f => f.url !== feed.url);
+
+                localStorage.setItem('rssFeeds', JSON.stringify(currentfeeds));
+                renderfeedlist();
+                
+                
+                if (selectedfeedUrl === feed.url) {
+                    newsContainer.innerHTML = '<h2>Select a Feed or Add a New One.</h2>';
+                    if (mainheadings) {
+                        mainheadings.innerHTML = '<h1>Welcome! <span>Select a Feed</span></h1>';
+                    }
+                    selectedfeedUrl = ''; 
+                    localStorage.removeItem('selectedfeedurl'); 
+                    hideErrorMessage(); 
+                }
+            }
+        });
+
+        listitem.appendChild(feedNameSpan);
+        listitem.appendChild(deleteButton);
+
+        if (feed.url === selectedfeedUrl) {
+            listitem.classList.add('active-li');
+            currentlyActiveItem = listitem;
+        }
+        if(currentfeeds.length > 0){
+                    const firstavailablefeed = currentfeeds[0];
+                    selectedfeed(firstavailablefeed.url , firstavailablefeed.name)
+                }
+
+        feedlistelement.appendChild(listitem);
     });
 }
+
+
 renderfeedlist();
+
 
 function displayNews(articles) {
     if (!newsContainer) {
@@ -111,14 +151,14 @@ function displayNews(articles) {
             newsEl.className = 'news-card'; 
 
             newsEl.innerHTML = `
-                <h3> ${article.title.toUpperCase()}</h3> 
                 ${article.imageUrl ? `<div class="article-image"><img src="${article.imageUrl}" alt="${article.title || 'News Image'}" /></div>` : ''}
+               <div class"article-content" ></div><h5> ${article.title.toUpperCase()}</h5> 
                 <small>${new Date(article.pubDate).toLocaleDateString()} ${new Date(article.pubDate).toLocaleTimeString()}</small>
                 <p>${article.description}</p>
+                </div>
                 <a href='${article.link}' target='_blank'>Read More</a>
             `;
             newsContainer.appendChild(newsEl);
-            localStorage.clear();
         });
     } else {
         newsContainer.innerHTML = '<p class="empty-message">No articles found for this feed.</p>';
@@ -156,9 +196,13 @@ async function fetchAndParseRssFeed(rssUrlToFetch) {
             const link = item.link || "#";
             const pubDate = item.pubDate || "No Date";
             const rawDescription = item.description || "No Description";
+
+             const titleWords = title.split(/\s+/);
+            const shortTitle = titleWords.slice(0, 8).join(' ') + (titleWords.length > 8? '...' : '');
            
             const cleanDescription = new DOMParser().parseFromString(rawDescription, 'text/html').body.textContent || rawDescription;
-
+              const words = cleanDescription.split(/\s+/); 
+            const shortDescription = words.slice(0, 10).join(' ') + (words.length > 10 ? '...' : '');
             let imageUrl = "";
 
             if (item.enclosure && item.enclosure.link) {
@@ -197,10 +241,10 @@ async function fetchAndParseRssFeed(rssUrlToFetch) {
                 }
             }
             return {
-                title,
+                title :shortTitle,
                 link,
                 pubDate,
-                description: cleanDescription,
+                description: shortDescription,
                 imageUrl
             };
         });
@@ -227,7 +271,7 @@ async function fetchAndParseRssFeed(rssUrlToFetch) {
     try {
         const articles = await fetchAndParseRssFeed(url);
         displayNews(articles);
-        localStorage.clear();
+
     } catch (error) {
         console.error('Error fetching and displaying feed:', error);
         showErrorMessage(`Failed to load feed: ${error.message || 'Unknown error'}. Please check the URL or try again later.`);
@@ -240,32 +284,6 @@ async function fetchAndParseRssFeed(rssUrlToFetch) {
     }
 }
 
-const refreshinterval = 10*60*1000
-
-let refreshtimer ;
-function startAutoRefresh() {
-    
-    if (refreshtimer) {
-        clearInterval(refreshtimer);
-    }
-    
-    refreshtimer = setInterval(() => {
-        console.log(`Auto-refreshing news for: ${selectedfeedurl}`);
-        fetchNews(); 
-    }, refreshinterval);
-    console.log(`Auto-refresh set to ${refreshinterval / 1000 / 60} minutes.`);
-
-   
-}
-
-function stopAutoRefresh() {
-    if (refreshtimer) {
-        clearInterval(refreshtimer);
-        console.log("Auto-refresh stopped.");
-        stopAutoRefresh();
-    }
-}
-
 
    
 console.log("Setting up DOMContentLoaded listener.");
@@ -273,7 +291,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     renderfeedlist();
     if (currentfeeds.length > 0) {
-        const initialFeed = currentfeeds.find(feed => feed.url === selectedfeedUrl) || currentfeeds[0];
+    const initialFeed = currentfeeds.find(feed => feed.url === selectedfeedUrl) || currentfeeds[0];
+
 
         if (initialFeed) {
             selectedfeed(initialFeed.url, initialFeed.name);
@@ -301,32 +320,14 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-function refreshFeed() {
-    console.log("Manual refresh triggered.");
-    if (selectedfeedUrl) {
-        const foundFeed = currentfeeds.find(feed => feed.url === selectedfeedUrl);
-        if (foundFeed) {
-            selectedfeed(foundFeed.url, foundFeed.name);
-            startAutoRefresh(); 
-        } else {
-            console.warn("Selected feed not found in currentFeeds for refresh.");
-            alert('The previously selected feed could not be found. Please select another feed.');
-            displayNews([]);
-            selectedfeedUrl = '';
-            localStorage.removeItem('selectedfeedUrl');
-            localStorage.clear();
-            stopAutoRefresh();
-        }
-    } 
-}
 
-if (refreshfeedbutton) {
-    refreshfeedbutton.addEventListener('click', refreshFeed);
-}
 
  if (addfeedbutton) {
     addfeedbutton.addEventListener('click', () => {
+        
         if (feedformcontainer) {
+             newsContainer.innerHTML = ''; 
+            newsContainer.appendChild(feedformcontainer);
             feedformcontainer.style.display = 'flex'; 
         }
         hideErrorMessage(); 
@@ -337,45 +338,12 @@ if (closefeedformbutton) {
     closefeedformbutton.addEventListener('click', () => {
         console.log('close')
         if (feedformcontainer) feedformcontainer.style.display = 'none'; 
-        if (addFeedForm) addFeedForm.reset(); 
+        if (addfeedform) addfeedform.reset(); 
         hideErrorMessage(); 
     });
 }
-
-if (deletefeedbutton) {
-    deletefeedbutton.addEventListener('click', () => { 
-        const activeItem = document.querySelector('.feed-li-el.active-li');
-        if (!activeItem) {
-            alert('Please select a feed to delete.');
-            return;
-        }
-
-        const urlToDelete = activeItem.dataset.url;
-        const nameToDelete = activeItem.dataset.name; 
-
-        if (confirm(`Are you sure you want to delete "${nameToDelete}"?`)) {
-            currentfeeds = currentfeeds.filter(feed => feed.url !== urlToDelete);
-            localStorage.setItem('rssFeeds', JSON.stringify(currentfeeds));
-            renderfeedlist(); 
-
-            if (selectedfeedUrl === urlToDelete) {
-                
-                newsContainer.innerHTML = '<h2>Select a Feed or Add a New One.</h2>';
-                if (mainheadings) { 
-                    mainheadings.innerHTML = '<h1>Welcome! <span>Select a Feed</span></h1>';
-                }
-                selectedfeedUrl = ''; 
-                localStorage.removeItem('selectedfeedurl'); 
-                stopAutoRefresh(); 
-            }
-            hideErrorMessage();
-        }
-    });
-}
-
-
 if (savefeedbutton) {
-    savefeedbutton.addEventListener('submit', (event) => {
+    savefeedbutton.addEventListener('click', (event) => { 
         event.preventDefault(); 
 
         const url = addnewfeedurl.value.trim();
@@ -383,34 +351,40 @@ if (savefeedbutton) {
 
         if (url && name) {
             try {
-                new URL(url); 
+                new URL(url);
                 const newFeed = {
-                    id: 'custom-' + Date.now(),
+                    id: 'custom-' + Date.now(), 
                     name: name,
                     url: url
                 };
+
                 const isDuplicate = currentfeeds.some(feed => feed.url === newFeed.url);
                 if (isDuplicate) {
                     showErrorMessage('This feed URL already exists.');
-                    return;
+                    return; 
                 }
-                currentfeeds.push(newFeed);
-                localStorage.setItem('rssFeeds', JSON.stringify(currentfeeds));
+
+                currentfeeds.push(newFeed); 
+                localStorage.setItem('rssFeeds', JSON.stringify(currentfeeds)); 
+
                 renderfeedlist(); 
                 selectedfeed(newFeed.url, newFeed.name); 
-                startAutoRefresh(); 
-                hideErrorMessage();
-                savefeedbutton.reset(); 
-                if (feedformcontainer) feedformcontainer.style.display = 'none'; 
+
+                hideErrorMessage(); 
+                addfeedform.reset(); 
+                if (feedformcontainer) {
+                    feedformcontainer.style.display = 'none'; 
+                }
             } catch (e) {
+            
                 showErrorMessage('Invalid URL format. Please enter a valid URL.');
             }
         } else {
+    
             showErrorMessage('Please fill in both Feed Name and URL.');
         }
     });
 }
-
 
 
  
