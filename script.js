@@ -156,7 +156,7 @@ function displayNews(articles) {
             
                <h5> ${article.title.toUpperCase()}</h5> 
                 <p>${article.description}</p>
-                 <small>${new Date(article.pubDate).toLocaleDateString()} ${new Date(article.pubDate).toLocaleTimeString()}</small>
+                 <small> Posted At ${new Date(article.pubDate).toLocaleDateString()} On ${new Date(article.pubDate).toLocaleTimeString()}</small>
                 </div>
                 <a href='${article.link}' target='_blank'>Read More</a>
             `;
