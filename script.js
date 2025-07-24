@@ -152,9 +152,11 @@ function displayNews(articles) {
 
             newsEl.innerHTML = `
                 ${article.imageUrl ? `<div class="article-image"><img src="${article.imageUrl}" alt="${article.title || 'News Image'}" /></div>` : ''}
-               <div class"article-content" ></div><h5> ${article.title.toUpperCase()}</h5> 
-                <small>${new Date(article.pubDate).toLocaleDateString()} ${new Date(article.pubDate).toLocaleTimeString()}</small>
+               <div class="article-content" >
+            
+               <h5> ${article.title.toUpperCase()}</h5> 
                 <p>${article.description}</p>
+                 <small>${new Date(article.pubDate).toLocaleDateString()} ${new Date(article.pubDate).toLocaleTimeString()}</small>
                 </div>
                 <a href='${article.link}' target='_blank'>Read More</a>
             `;
@@ -325,8 +327,7 @@ document.addEventListener('DOMContentLoaded', () => {
  if (addfeedbutton) {
     addfeedbutton.addEventListener('click', () => {
         
-        if (feedformcontainer) {
-             newsContainer.innerHTML = ''; 
+        if (feedformcontainer) { 
             newsContainer.appendChild(feedformcontainer);
             feedformcontainer.style.display = 'flex'; 
         }

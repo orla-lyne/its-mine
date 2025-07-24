@@ -144,14 +144,14 @@ font-size: 1.2em;
     align-content: center;
     justify-self: center;
     align-self: center;
-       padding: 10px;
+       padding-inline: 8px;
 }
 
 .article-content{
-  margin-bottom: 3em;
+  /* margin-bottom: 3em; */
   display: flex;
   flex-direction: column;
-  gap: 0.3em;
+  gap: 0.5rem;
  
 }
 
@@ -166,8 +166,7 @@ font-size: 1.2em;
      line-height: 1.5;
     font-weight: 200;
     text-align: center;
-    margin-bottom: 0.8em;
-    padding: 10px;
+    padding-inline: 8px;
 }
 
 .news-card a { 
@@ -202,7 +201,9 @@ font-size: 1.2em;
     align-content: center;
     justify-self: center;
     align-self: center;
-     padding: 10px;
+     padding-inline: 8px;
+      margin-bottom: 0.8em;
+     
 }
 
 ul{
@@ -295,7 +296,7 @@ font-size: 1em;
    transform: translateY(-5px);
 }
 
-#Save:hover{
+#save:hover{
  background-color:  #178582;
  color: white;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -345,8 +346,8 @@ input label{
   border: none;
   background: none;
   display: flex;
- font-size: 1.5em;
-  border-radius: 20px;
+ font-size: 1em;
+  
 }
 
 #close-feed:hover{
@@ -358,7 +359,7 @@ input label{
 .feed-form1{
   display: none;
   position: absolute;
-  width: 100%;
+  width: 80%;
   height: 70%;
   justify-content: center;
   align-content: center;
