@@ -161,7 +161,7 @@ function displayNews(articles) {
             newsContainer.appendChild(newsEl);
         });
     } else {
-        newsContainer.innerHTML = '<p class="empty-message">No articles found for this feed.</p>';
+        newsContainer.innerHTML = '<p class="empty-message"></p>';
         console.log("No articles found or the articles array is empty."); 
     }
 
@@ -274,7 +274,7 @@ async function fetchAndParseRssFeed(rssUrlToFetch) {
 
     } catch (error) {
         console.error('Error fetching and displaying feed:', error);
-        showErrorMessage(`Failed to load feed: ${error.message || 'Unknown error'}. Please check the URL or try again later.`);
+        showErrorMessage(`Failed to load feed:  No articles found for this feed.  ${error.message || 'Unknown error'}. Please check the URL or try again later.`);
         displayNews([]); 
     
        
