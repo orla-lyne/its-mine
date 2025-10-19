@@ -1,18 +1,18 @@
 * {
   padding: 0;
   margin: 0;
-  box-sizing: 0;
+  box-sizing: border-box;
  
 }
 
 body{
-   cursor: pointer;
+   cursor: default;
   font-family: Arial, Helvetica, sans-serif;
   background-color: #EEE;
   line-height: 1.6;
   min-height: 100vh;
   display :flaex ;
-  width: 100%;
+  /* width: 100%; */
   
 
 }
@@ -27,7 +27,12 @@ body{
 
 .aside-container {
   border-right: 1px solid rgba(150, 148, 148, 0.356);
-  width: 15%;
+ width: 300px; 
+  min-width: 250px;
+  background-color: white; 
+  display: flex;
+  flex-direction: column; 
+ 
   
  
 }
@@ -47,7 +52,7 @@ body{
   font-size: 1.5em;
   color: white;
 }
- 
+
 .button-section button{
   padding: 8px 12px;
   border: none;
@@ -70,7 +75,7 @@ body{
 
 .headings {
  padding: 22px;
- border-block: 1px solid rgba(150, 148, 148, 0.356);
+ border-bottom: 1px solid rgba(150, 148, 148, 0.356);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -148,7 +153,6 @@ font-size: 1.2em;
 }
 
 .article-content{
-  /* margin-bottom: 3em; */
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
@@ -181,9 +185,9 @@ font-size: 1.2em;
     font-weight: 800;
      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
      display: flex;
-    align-self: center;
-    justify-self: center;
-    margin-bottom: 1.2em;
+     align-content: center;
+     justify-content: center;
+   
 }
 
 .news-card a:hover {
@@ -213,11 +217,12 @@ ul{
   margin: 0;
  color:black;
  font-size: 1.3em;
+ overflow: auto;
 }
 
 ul li:hover{
- background-color:  #178582;
- color: white;
+ background-color:  #09d1b6;
+ color: white; 
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
    transform: translateY(-5px);
 }
@@ -228,28 +233,26 @@ ul li:hover{
 }
 
 .feed-li-el {
+  cursor: pointer;
   flex-grow: 1;
   align-items: center;
   display: grid;
   grid-template-columns: 50% 45%;
   justify-content: space-between;
-  gap: 3em;
+  gap: 3.2em;
   list-style-type: none;
   border-bottom: 1px solid rgba(150, 148, 148, 0.356);
    text-align: left; 
-    padding: 20px;  
+  padding: 10px 15px; 
 }
-
-.feed-name-span{
-  flex-grow: 1;
-}
-
 
 #add-feed{
   font-size: 1em;
    border-radius: 5px;
   height: 2em;
   width: 2em;
+  align-content: center;
+  justify-content: center;
   
 }
 .delete-feed-item-btn{
@@ -277,7 +280,7 @@ font-size: 1em;
   display: flex;
   justify-content: center;
   gap: 80px;
-  margin-top: 80px;
+  margin-bottom: 15px;
 
 }
 
@@ -290,7 +293,7 @@ font-size: 1em;
 }
 
 #Cancel:hover{
- background-color:  #178582;
+ background-color:  #09d1b6;
  color: white;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
    transform: translateY(-5px);
@@ -303,6 +306,9 @@ font-size: 1em;
    transform: translateY(-5px);
 }
 
+#Cancel{
+  background-color:  #178582;
+}
 #save {
   background-color:  #178582;
 }
@@ -317,7 +323,7 @@ input label{
 }
 .form-heading{
   font-size: 1.8em;
-  margin-bottom: 25px;
+  margin-bottom: 15px;
   display: flex;
   text-align: center;
   color: #178582 ;
@@ -363,8 +369,8 @@ input label{
 .feed-form1{
   display: none;
   position: absolute;
-  width: 80%;
-  height: 70%;
+  width: 50%;
+  height: 45%;
   justify-content: center;
   align-content: center;
   border-radius: 20px;

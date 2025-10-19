@@ -258,6 +258,22 @@ async function fetchAndParseRssFeed(rssUrlToFetch) {
         throw error; 
     }
 }
+
+async function getFeedTitle(rssUrlToFetch) {
+    const proxyUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrlToFetch)}`;
+    const response = await fetch(proxyUrl);
+    
+    if (!response.ok) {
+        throw new Error(`Network error (${response.status}).`);
+    }
+
+    const data = await response.json();
+    if (data.status !== 'ok' || !data.feed || !data.feed.title) {
+        throw new Error(`Invalid RSS feed or failed to read title.`);
+    }
+
+    return data.feed.title;
+}
   
    async function selectedfeed(url , name) {
     selectedfeedUrl = url ;
@@ -276,7 +292,7 @@ async function fetchAndParseRssFeed(rssUrlToFetch) {
 
     } catch (error) {
         console.error('Error fetching and displaying feed:', error);
-        showErrorMessage(`Failed to load feed:  No articles found for this feed.  ${error.message || 'Unknown error'}. Please check the URL or try again later.`);
+        showErrorMessage(`Failed to load feed  ${error.message || 'Unknown error'}. Please check the URL or try again later.`);
         displayNews([]); 
     
        
@@ -343,50 +359,75 @@ if (closefeedformbutton) {
         hideErrorMessage(); 
     });
 }
+
 if (savefeedbutton) {
-    savefeedbutton.addEventListener('click', (event) => { 
+    savefeedbutton.addEventListener('click', async (event) => { 
         event.preventDefault(); 
 
         const url = addnewfeedurl.value.trim();
-        const name = addnewfeedname.value.trim();
+        const nameInput = addnewfeedname.value.trim(); 
 
-        if (url && name) {
-            try {
-                new URL(url);
-                const newFeed = {
-                    id: 'custom-' + Date.now(), 
-                    name: name,
-                    url: url
-                };
-
-                const isDuplicate = currentfeeds.some(feed => feed.url === newFeed.url);
-                if (isDuplicate) {
-                    showErrorMessage('This feed URL already exists.');
-                    return; 
-                }
-
-                currentfeeds.push(newFeed); 
-                localStorage.setItem('rssFeeds', JSON.stringify(currentfeeds)); 
-
-                renderfeedlist(); 
-                selectedfeed(newFeed.url, newFeed.name); 
-
-                hideErrorMessage(); 
-                addfeedform.reset(); 
-                if (feedformcontainer) {
-                    feedformcontainer.style.display = 'none'; 
-                }
-            } catch (e) {
-            
-                showErrorMessage('Invalid URL format. Please enter a valid URL.');
-            }
-        } else {
-    
+        if (!url || !nameInput) {
             showErrorMessage('Please fill in both Feed Name and URL.');
+            return;
+        }
+
+       
+        savefeedbutton.disabled = true; 
+        savefeedbutton.textContent = 'Verifying...';
+        showLoading(); 
+
+        try {
+            const urlObject = new URL(url);
+            
+           
+            if (urlObject.protocol !== 'http:' && urlObject.protocol !== 'https:') {
+                throw new Error('URL must start with "http://" or "https://".');
+            }
+            
+         
+            const isDuplicate = currentfeeds.some(feed => feed.url === url);
+            if (isDuplicate) {
+                throw new Error('This feed URL already exists in your list.');
+            }
+
+         
+            const officialName = await getFeedTitle(url);
+
+         
+            const finalName = officialName || nameInput;
+
+            
+            const newFeed = {
+                id: 'custom-' + Date.now(), 
+                name: finalName,
+                url: url
+            };
+
+            currentfeeds.push(newFeed); 
+            localStorage.setItem('rssFeeds', JSON.stringify(currentfeeds)); 
+
+            renderfeedlist(); 
+            selectedfeed(newFeed.url, newFeed.name); 
+
+            
+            hideErrorMessage(); 
+            addfeedform.reset(); 
+            if (feedformcontainer) {
+                feedformcontainer.style.display = 'none'; 
+            }
+
+        } catch (e) {
+           
+            console.error('Save Feed Error:', e.message);
+            showErrorMessage(`Error adding feed: ${e.message}. Enter a valid URL`);
+        } finally {
+
+            savefeedbutton.disabled = false;
+            savefeedbutton.textContent = 'Save';
+            hideLoading(); 
         }
     });
 }
-
-
  
   
